@@ -1,3 +1,4 @@
+//use data from connection
 var connection = require("../config/connection.js");
 
 //helper for sql - add ?
@@ -10,6 +11,19 @@ function printQuestionMarks(num) {
   return arr.toString();
 }
 
+//helper for sql - update ?
+function objToSql(ob) {
+  var arr = [];
+
+  for (var key in ob) {
+    if (Object.hasOwnProperty.call(ob, key)) {
+      arr.push(key + "=" + ob[key]);
+    }
+  }
+  return arr.toString();
+}
+
+//create orm object
 var orm = {
 
 selectAll: function(input, cb){
@@ -36,16 +50,25 @@ var queryString = "INSERT INTO " + table ;
       if (err) {
         throw err;
       }
-      console.log(queryString);
       cb(result);
     })
+},
+
+updateOne: function(table, objColVals, condition, cb){
+var queryString = "UPDATE " + table;
+    queryString += " SET ";
+    queryString += objToSql(objColVals);
+    queryString += " WHERE ";
+    queryString += condition;
+
+    connection.query(queryString, function(err, result) {
+      if (err) {
+        throw err;
+      }
+      cb(result);
+    });
 }
-  // ,
-
-// updateOne: function(){
-
-// }
-
 };
 
+//export orm object's functions to burger
 module.exports = orm;

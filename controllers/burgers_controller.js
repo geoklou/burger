@@ -1,10 +1,10 @@
 var express = require("express");
 
 var router = express.Router();
-
+//import burger object
 var burger = require("../models/burger.js");
 
-// Create all routes and set up logic within those routes where required.
+//create routes and set up logic within those routes where required
 router.get("/", function(req, res) {
   burger.selectAll(function(data) {
     var hbsObject = {
@@ -25,26 +25,15 @@ router.post("/", function(req, res) {
   });
 });
 
-// router.put("/:id", function(req, res) {
-//   var condition = "id = " + req.params.id;
+router.put("/:id", function(req, res) {
+  var condition = "id = " + req.params.id;
 
-//   console.log("condition", condition);
+  burger.updateOne({
+    devoured: req.body.devoured
+  }, condition, function() {
+    res.redirect("/");
+  });
+});
 
-//   burger.updateOne({
-//     devoured: req.body.devoured
-//   }, condition, function() {
-//     res.redirect("/");
-//   });
-// });
-
-//// do not need the followings
-// router.delete("/:id", function(req, res) {
-//   var condition = "id = " + req.params.id;
-
-//   burger.delete(condition, function() {
-//     res.redirect("/");
-//   });
-// });
-
-// Export routes for server.js to use
+// Export router for server
 module.exports = router;

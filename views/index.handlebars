@@ -1,15 +1,18 @@
 
 <div class="container center">
 
-<h1>Eat A Burger</h1>
+<h1>Eat-Da-Burger</h1>
 
 <div class="row">
     <div class="col-md-4 col-sm-4"><h4>Available Burgers:<h4>
     <!--if default value = 0 -->
     {{#each burgers }}
     {{#unless this.devoured}}
-        <li class="burger available">{{burger_name}}</li>
-        <button>Eat Me!</button>
+    <li class="burger available">{{burger_name}}</li>
+    <form action="/{{this.id}}?_method=PUT" method="POST">
+    <input type="hidden" name="devoured" value="1">
+        <button type="submit">Eat Me!</button>
+    </form>
     {{/unless}}
     {{/each}}   
     </div>
@@ -28,15 +31,6 @@
       {{/each}}
       </div>
 
-  <!--test retriev wholesle - works!-->
- {{!-- <div class="row">
-    <div class="col-md-4 col-sm-4"><h4>Available Burgers:<h4>
-      {{#each burgers }}
-        <li class="burger">{{burger_name}}</li>
-        <button>Eat Me!</button>
-      {{/each}}  
-    </div> --}}
-
 <!--add a burger form-->
 <div class="row">
   <form action="/" method="POST">
@@ -47,6 +41,6 @@
 </div>
    
 </div>
-
+<!--row ends-->
 </div>
 <!--container ends-->
